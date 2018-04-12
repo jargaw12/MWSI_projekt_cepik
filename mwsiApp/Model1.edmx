@@ -1,0 +1,647 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="bd1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure"
+              Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BadanieTechniczne">
+          <Key>
+            <PropertyRef Name="idBadania" />
+          </Key>
+          <Property Name="idBadania" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VIN" Type="char" MaxLength="17" />
+          <Property Name="dataBadania" Type="date" />
+          <Property Name="terminWaznosci" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DowodRejestracyjny">
+          <Key>
+            <PropertyRef Name="idDowodRejestracyjny" />
+          </Key>
+          <Property Name="idDowodRejestracyjny" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="VIN" Type="char" MaxLength="17" />
+          <Property Name="PESEL" Type="char" MaxLength="11" />
+          <Property Name="dataWydania" Type="date" />
+        </EntityType>
+        <EntityType Name="KartaPojazdu">
+          <Key>
+            <PropertyRef Name="idKartyPojazdu" />
+          </Key>
+          <Property Name="idKartyPojazdu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VIN" Type="char" MaxLength="17" />
+          <Property Name="idTypNadwozia" Type="int" Nullable="false" />
+          <Property Name="idMarka" Type="int" />
+          <Property Name="idModel" Type="int" />
+          <Property Name="idRodzajPaliwa" Type="int" Nullable="false" />
+          <Property Name="dataWydaniaKartyPojazdu" Type="date" />
+          <Property Name="dataPierwszejRejestracji" Type="date" />
+          <Property Name="pojemnosc" Type="int" />
+          <Property Name="mocSilnika" Type="float" />
+          <Property Name="liczbaMiejsc" Type="int" />
+          <Property Name="srZuzyciePaliwa" Type="int" />
+          <Property Name="masaWlasna" Type="int" />
+          <Property Name="ladownosc" Type="int" />
+          <Property Name="wydano" Type="bit" />
+        </EntityType>
+        <EntityType Name="Marka">
+          <Key>
+            <PropertyRef Name="idMarka" />
+          </Key>
+          <Property Name="idMarka" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="marka" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Miejscowosc">
+          <Key>
+            <PropertyRef Name="idMiejscowosc" />
+            <PropertyRef Name="idPowiat" />
+            <PropertyRef Name="idWojewodztwo" />
+          </Key>
+          <Property Name="idMiejscowosc" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idPowiat" Type="int" Nullable="false" />
+          <Property Name="idWojewodztwo" Type="int" Nullable="false" />
+          <Property Name="miejscowosc" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="idModel" />
+            <PropertyRef Name="idMarka" />
+          </Key>
+          <Property Name="idModel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idMarka" Type="int" Nullable="false" />
+          <Property Name="model" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Pojazd">
+          <Key>
+            <PropertyRef Name="VIN" />
+          </Key>
+          <Property Name="VIN" Type="char" MaxLength="17" Nullable="false" />
+          <Property Name="idKartyPojazdu" Type="varchar" MaxLength="20" />
+          <Property Name="dataAktualnegoDR" Type="date" />
+          <Property Name="ostatniZarejestrowanyStanLicznika" Type="int" />
+          <Property Name="zarejestrowany" Type="bit" />
+          <Property Name="kradziony" Type="bit" />
+        </EntityType>
+        <EntityType Name="Policjant">
+          <Key>
+            <PropertyRef Name="PESEL" />
+          </Key>
+          <Property Name="PESEL" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="login" Type="varchar" MaxLength="30" />
+          <Property Name="haslo" Type="varchar" MaxLength="30" />
+          <Property Name="imie" Type="varchar" MaxLength="30" />
+          <Property Name="imie2" Type="varchar" MaxLength="30" />
+          <Property Name="nazwisko" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'bd1.dbo.Powiat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Powiat">
+          <Key>
+            <PropertyRef Name="idPowiat" />
+            <PropertyRef Name="idWojewodztwo" />
+            <PropertyRef Name="powiat" />
+          </Key>
+          <Property Name="idPowiat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idWojewodztwo" Type="int" Nullable="false" />
+          <Property Name="powiat" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RodzajPaliwa">
+          <Key>
+            <PropertyRef Name="idRodzajPaliwa" />
+          </Key>
+          <Property Name="idRodzajPaliwa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rodzajPaliwa" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="TypNadwozia">
+          <Key>
+            <PropertyRef Name="idTypNadwozia" />
+          </Key>
+          <Property Name="idTypNadwozia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="typNadwozia" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Urzednik">
+          <Key>
+            <PropertyRef Name="PESEL" />
+          </Key>
+          <Property Name="PESEL" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="login" Type="varchar" MaxLength="30" />
+          <Property Name="haslo" Type="varchar" MaxLength="30" />
+          <Property Name="imie" Type="varchar" MaxLength="30" />
+          <Property Name="imie2" Type="varchar" MaxLength="30" />
+          <Property Name="nazwisko" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Uzytkownik">
+          <Key>
+            <PropertyRef Name="PESEL" />
+          </Key>
+          <Property Name="PESEL" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="login" Type="varchar" MaxLength="30" />
+          <Property Name="haslo" Type="varchar" MaxLength="30" />
+          <Property Name="imie" Type="varchar" MaxLength="30" />
+          <Property Name="imie2" Type="varchar" MaxLength="30" />
+          <Property Name="nazwisko" Type="varchar" MaxLength="30" />
+          <Property Name="telefon" Type="varchar" MaxLength="12" />
+          <Property Name="dataUrodzenia" Type="date" />
+          <Property Name="idWojewodztwo" Type="int" />
+          <Property Name="idPowiat" Type="int" />
+          <Property Name="idMiejscowosc" Type="int" />
+          <Property Name="ulica" Type="varchar" MaxLength="30" />
+          <Property Name="nrDomu" Type="int" />
+          <Property Name="nrLokalu" Type="int" />
+          <Property Name="miejsceUrodzenia" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Wojewodztwo">
+          <Key>
+            <PropertyRef Name="idWojewodztwo" />
+          </Key>
+          <Property Name="idWojewodztwo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="wojewodztwo" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="tablicaW" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wykroczenie">
+          <Key>
+            <PropertyRef Name="idWykroczenia" />
+          </Key>
+          <Property Name="idWykroczenia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PESEL" Type="char" MaxLength="11" />
+          <Property Name="liczbaPktKarnych" Type="int" />
+          <Property Name="dataWykroczenia" Type="date" />
+          <Property Name="wykroczenie" Type="text" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'bd1.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="database_firewall_rules">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_ip_address" />
+            <PropertyRef Name="end_ip_address" />
+            <PropertyRef Name="create_date" />
+            <PropertyRef Name="modify_date" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="start_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="end_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="create_date" Type="datetime" Nullable="false" />
+          <Property Name="modify_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="bd1ModelStoreContainer">
+          <EntitySet Name="BadanieTechniczne" EntityType="Self.BadanieTechniczne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DowodRejestracyjny" EntityType="Self.DowodRejestracyjny" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KartaPojazdu" EntityType="Self.KartaPojazdu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Marka" EntityType="Self.Marka" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Miejscowosc" EntityType="Self.Miejscowosc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Model" EntityType="Self.Model" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pojazd" EntityType="Self.Pojazd" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Policjant" EntityType="Self.Policjant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RodzajPaliwa" EntityType="Self.RodzajPaliwa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypNadwozia" EntityType="Self.TypNadwozia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Urzednik" EntityType="Self.Urzednik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wojewodztwo" EntityType="Self.Wojewodztwo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wykroczenie" EntityType="Self.Wykroczenie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Powiat" EntityType="Self.Powiat" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>
+              SELECT
+              [Powiat].[idPowiat] AS [idPowiat],
+              [Powiat].[idWojewodztwo] AS [idWojewodztwo],
+              [Powiat].[powiat] AS [powiat]
+              FROM [dbo].[Powiat] AS [Powiat]
+            </DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views"
+                     store:Schema="sys">
+            <DefiningQuery>
+              SELECT
+              [database_firewall_rules].[id] AS [id],
+              [database_firewall_rules].[name] AS [name],
+              [database_firewall_rules].[start_ip_address] AS [start_ip_address],
+              [database_firewall_rules].[end_ip_address] AS [end_ip_address],
+              [database_firewall_rules].[create_date] AS [create_date],
+              [database_firewall_rules].[modify_date] AS [modify_date]
+              FROM [sys].[database_firewall_rules] AS [database_firewall_rules]
+            </DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bd1Model" Alias="Self" annotation:UseStrongSpatialTypes="false"
+              xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BadanieTechniczne">
+          <Key>
+            <PropertyRef Name="idBadania" />
+          </Key>
+          <Property Name="idBadania" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="true" Unicode="false" />
+          <Property Name="dataBadania" Type="DateTime" Precision="0" />
+          <Property Name="terminWaznosci" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DowodRejestracyjny">
+          <Key>
+            <PropertyRef Name="idDowodRejestracyjny" />
+          </Key>
+          <Property Name="idDowodRejestracyjny" Type="String" MaxLength="7" FixedLength="true" Unicode="false"
+                    Nullable="false" />
+          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="true" Unicode="false" />
+          <Property Name="PESEL" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="dataWydania" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="KartaPojazdu">
+          <Key>
+            <PropertyRef Name="idKartyPojazdu" />
+          </Key>
+          <Property Name="idKartyPojazdu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="true" Unicode="false" />
+          <Property Name="idTypNadwozia" Type="Int32" Nullable="false" />
+          <Property Name="idMarka" Type="Int32" />
+          <Property Name="idModel" Type="Int32" />
+          <Property Name="idRodzajPaliwa" Type="Int32" Nullable="false" />
+          <Property Name="dataWydaniaKartyPojazdu" Type="DateTime" Precision="0" />
+          <Property Name="dataPierwszejRejestracji" Type="DateTime" Precision="0" />
+          <Property Name="pojemnosc" Type="Int32" />
+          <Property Name="mocSilnika" Type="Double" />
+          <Property Name="liczbaMiejsc" Type="Int32" />
+          <Property Name="srZuzyciePaliwa" Type="Int32" />
+          <Property Name="masaWlasna" Type="Int32" />
+          <Property Name="ladownosc" Type="Int32" />
+          <Property Name="wydano" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Marka">
+          <Key>
+            <PropertyRef Name="idMarka" />
+          </Key>
+          <Property Name="idMarka" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="marka1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Miejscowosc">
+          <Key>
+            <PropertyRef Name="idMiejscowosc" />
+            <PropertyRef Name="idPowiat" />
+            <PropertyRef Name="idWojewodztwo" />
+          </Key>
+          <Property Name="idMiejscowosc" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idPowiat" Type="Int32" Nullable="false" />
+          <Property Name="idWojewodztwo" Type="Int32" Nullable="false" />
+          <Property Name="miejscowosc1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="idModel" />
+            <PropertyRef Name="idMarka" />
+          </Key>
+          <Property Name="idModel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idMarka" Type="Int32" Nullable="false" />
+          <Property Name="model1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Pojazd">
+          <Key>
+            <PropertyRef Name="VIN" />
+          </Key>
+          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="idKartyPojazdu" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="dataAktualnegoDR" Type="DateTime" Precision="0" />
+          <Property Name="ostatniZarejestrowanyStanLicznika" Type="Int32" />
+          <Property Name="zarejestrowany" Type="Boolean" />
+          <Property Name="kradziony" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Policjant">
+          <Key>
+            <PropertyRef Name="PESEL" />
+          </Key>
+          <Property Name="PESEL" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="haslo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="imie" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="imie2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="nazwisko" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="RodzajPaliwa">
+          <Key>
+            <PropertyRef Name="idRodzajPaliwa" />
+          </Key>
+          <Property Name="idRodzajPaliwa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rodzajPaliwa1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TypNadwozia">
+          <Key>
+            <PropertyRef Name="idTypNadwozia" />
+          </Key>
+          <Property Name="idTypNadwozia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="typNadwozia1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Urzednik">
+          <Key>
+            <PropertyRef Name="PESEL" />
+          </Key>
+          <Property Name="PESEL" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="haslo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="imie" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="imie2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="nazwisko" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Uzytkownik">
+          <Key>
+            <PropertyRef Name="PESEL" />
+          </Key>
+          <Property Name="PESEL" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="haslo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="imie" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="imie2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="nazwisko" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="telefon" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="dataUrodzenia" Type="DateTime" Precision="0" />
+          <Property Name="idWojewodztwo" Type="Int32" />
+          <Property Name="idPowiat" Type="Int32" />
+          <Property Name="idMiejscowosc" Type="Int32" />
+          <Property Name="ulica" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="nrDomu" Type="Int32" />
+          <Property Name="nrLokalu" Type="Int32" />
+          <Property Name="miejsceUrodzenia" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Wojewodztwo">
+          <Key>
+            <PropertyRef Name="idWojewodztwo" />
+          </Key>
+          <Property Name="idWojewodztwo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="wojewodztwo1" Type="String" MaxLength="30" FixedLength="false" Unicode="false"
+                    Nullable="false" />
+          <Property Name="tablicaW" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wykroczenie">
+          <Key>
+            <PropertyRef Name="idWykroczenia" />
+          </Key>
+          <Property Name="idWykroczenia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PESEL" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="liczbaPktKarnych" Type="Int32" />
+          <Property Name="dataWykroczenia" Type="DateTime" Precision="0" />
+          <Property Name="wykroczenie1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Powiat">
+          <Key>
+            <PropertyRef Name="idPowiat" />
+            <PropertyRef Name="idWojewodztwo" />
+            <PropertyRef Name="powiat1" />
+          </Key>
+          <Property Name="idPowiat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idWojewodztwo" Type="Int32" Nullable="false" />
+          <Property Name="powiat1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="database_firewall_rules">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_ip_address" />
+            <PropertyRef Name="end_ip_address" />
+            <PropertyRef Name="create_date" />
+            <PropertyRef Name="modify_date" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="start_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false"
+                    Nullable="false" />
+          <Property Name="end_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false"
+                    Nullable="false" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="bd1Entities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BadanieTechnicznes" EntityType="Self.BadanieTechniczne" />
+          <EntitySet Name="DowodRejestracyjnies" EntityType="Self.DowodRejestracyjny" />
+          <EntitySet Name="KartaPojazdus" EntityType="Self.KartaPojazdu" />
+          <EntitySet Name="Markas" EntityType="Self.Marka" />
+          <EntitySet Name="Miejscowoscs" EntityType="Self.Miejscowosc" />
+          <EntitySet Name="Models" EntityType="Self.Model" />
+          <EntitySet Name="Pojazds" EntityType="Self.Pojazd" />
+          <EntitySet Name="Policjants" EntityType="Self.Policjant" />
+          <EntitySet Name="RodzajPaliwas" EntityType="Self.RodzajPaliwa" />
+          <EntitySet Name="TypNadwozias" EntityType="Self.TypNadwozia" />
+          <EntitySet Name="Urzedniks" EntityType="Self.Urzednik" />
+          <EntitySet Name="Uzytkowniks" EntityType="Self.Uzytkownik" />
+          <EntitySet Name="Wojewodztwoes" EntityType="Self.Wojewodztwo" />
+          <EntitySet Name="Wykroczenies" EntityType="Self.Wykroczenie" />
+          <EntitySet Name="Powiats" EntityType="Self.Powiat" />
+          <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bd1ModelStoreContainer" CdmEntityContainer="bd1Entities2">
+          <EntitySetMapping Name="BadanieTechnicznes">
+            <EntityTypeMapping TypeName="bd1Model.BadanieTechniczne">
+              <MappingFragment StoreEntitySet="BadanieTechniczne">
+                <ScalarProperty Name="idBadania" ColumnName="idBadania" />
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="dataBadania" ColumnName="dataBadania" />
+                <ScalarProperty Name="terminWaznosci" ColumnName="terminWaznosci" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DowodRejestracyjnies">
+            <EntityTypeMapping TypeName="bd1Model.DowodRejestracyjny">
+              <MappingFragment StoreEntitySet="DowodRejestracyjny">
+                <ScalarProperty Name="idDowodRejestracyjny" ColumnName="idDowodRejestracyjny" />
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="PESEL" ColumnName="PESEL" />
+                <ScalarProperty Name="dataWydania" ColumnName="dataWydania" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KartaPojazdus">
+            <EntityTypeMapping TypeName="bd1Model.KartaPojazdu">
+              <MappingFragment StoreEntitySet="KartaPojazdu">
+                <ScalarProperty Name="idKartyPojazdu" ColumnName="idKartyPojazdu" />
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="idTypNadwozia" ColumnName="idTypNadwozia" />
+                <ScalarProperty Name="idMarka" ColumnName="idMarka" />
+                <ScalarProperty Name="idModel" ColumnName="idModel" />
+                <ScalarProperty Name="idRodzajPaliwa" ColumnName="idRodzajPaliwa" />
+                <ScalarProperty Name="dataWydaniaKartyPojazdu" ColumnName="dataWydaniaKartyPojazdu" />
+                <ScalarProperty Name="dataPierwszejRejestracji" ColumnName="dataPierwszejRejestracji" />
+                <ScalarProperty Name="pojemnosc" ColumnName="pojemnosc" />
+                <ScalarProperty Name="mocSilnika" ColumnName="mocSilnika" />
+                <ScalarProperty Name="liczbaMiejsc" ColumnName="liczbaMiejsc" />
+                <ScalarProperty Name="srZuzyciePaliwa" ColumnName="srZuzyciePaliwa" />
+                <ScalarProperty Name="masaWlasna" ColumnName="masaWlasna" />
+                <ScalarProperty Name="ladownosc" ColumnName="ladownosc" />
+                <ScalarProperty Name="wydano" ColumnName="wydano" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Markas">
+            <EntityTypeMapping TypeName="bd1Model.Marka">
+              <MappingFragment StoreEntitySet="Marka">
+                <ScalarProperty Name="idMarka" ColumnName="idMarka" />
+                <ScalarProperty Name="marka1" ColumnName="marka" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Miejscowoscs">
+            <EntityTypeMapping TypeName="bd1Model.Miejscowosc">
+              <MappingFragment StoreEntitySet="Miejscowosc">
+                <ScalarProperty Name="idMiejscowosc" ColumnName="idMiejscowosc" />
+                <ScalarProperty Name="idPowiat" ColumnName="idPowiat" />
+                <ScalarProperty Name="idWojewodztwo" ColumnName="idWojewodztwo" />
+                <ScalarProperty Name="miejscowosc1" ColumnName="miejscowosc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Models">
+            <EntityTypeMapping TypeName="bd1Model.Model">
+              <MappingFragment StoreEntitySet="Model">
+                <ScalarProperty Name="idModel" ColumnName="idModel" />
+                <ScalarProperty Name="idMarka" ColumnName="idMarka" />
+                <ScalarProperty Name="model1" ColumnName="model" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pojazds">
+            <EntityTypeMapping TypeName="bd1Model.Pojazd">
+              <MappingFragment StoreEntitySet="Pojazd">
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="idKartyPojazdu" ColumnName="idKartyPojazdu" />
+                <ScalarProperty Name="dataAktualnegoDR" ColumnName="dataAktualnegoDR" />
+                <ScalarProperty Name="ostatniZarejestrowanyStanLicznika" ColumnName="ostatniZarejestrowanyStanLicznika" />
+                <ScalarProperty Name="zarejestrowany" ColumnName="zarejestrowany" />
+                <ScalarProperty Name="kradziony" ColumnName="kradziony" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Policjants">
+            <EntityTypeMapping TypeName="bd1Model.Policjant">
+              <MappingFragment StoreEntitySet="Policjant">
+                <ScalarProperty Name="PESEL" ColumnName="PESEL" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="haslo" ColumnName="haslo" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="imie2" ColumnName="imie2" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RodzajPaliwas">
+            <EntityTypeMapping TypeName="bd1Model.RodzajPaliwa">
+              <MappingFragment StoreEntitySet="RodzajPaliwa">
+                <ScalarProperty Name="idRodzajPaliwa" ColumnName="idRodzajPaliwa" />
+                <ScalarProperty Name="rodzajPaliwa1" ColumnName="rodzajPaliwa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypNadwozias">
+            <EntityTypeMapping TypeName="bd1Model.TypNadwozia">
+              <MappingFragment StoreEntitySet="TypNadwozia">
+                <ScalarProperty Name="idTypNadwozia" ColumnName="idTypNadwozia" />
+                <ScalarProperty Name="typNadwozia1" ColumnName="typNadwozia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Urzedniks">
+            <EntityTypeMapping TypeName="bd1Model.Urzednik">
+              <MappingFragment StoreEntitySet="Urzednik">
+                <ScalarProperty Name="PESEL" ColumnName="PESEL" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="haslo" ColumnName="haslo" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="imie2" ColumnName="imie2" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uzytkowniks">
+            <EntityTypeMapping TypeName="bd1Model.Uzytkownik">
+              <MappingFragment StoreEntitySet="Uzytkownik">
+                <ScalarProperty Name="PESEL" ColumnName="PESEL" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="haslo" ColumnName="haslo" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="imie2" ColumnName="imie2" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="dataUrodzenia" ColumnName="dataUrodzenia" />
+                <ScalarProperty Name="idWojewodztwo" ColumnName="idWojewodztwo" />
+                <ScalarProperty Name="idPowiat" ColumnName="idPowiat" />
+                <ScalarProperty Name="idMiejscowosc" ColumnName="idMiejscowosc" />
+                <ScalarProperty Name="ulica" ColumnName="ulica" />
+                <ScalarProperty Name="nrDomu" ColumnName="nrDomu" />
+                <ScalarProperty Name="nrLokalu" ColumnName="nrLokalu" />
+                <ScalarProperty Name="miejsceUrodzenia" ColumnName="miejsceUrodzenia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wojewodztwoes">
+            <EntityTypeMapping TypeName="bd1Model.Wojewodztwo">
+              <MappingFragment StoreEntitySet="Wojewodztwo">
+                <ScalarProperty Name="idWojewodztwo" ColumnName="idWojewodztwo" />
+                <ScalarProperty Name="wojewodztwo1" ColumnName="wojewodztwo" />
+                <ScalarProperty Name="tablicaW" ColumnName="tablicaW" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wykroczenies">
+            <EntityTypeMapping TypeName="bd1Model.Wykroczenie">
+              <MappingFragment StoreEntitySet="Wykroczenie">
+                <ScalarProperty Name="idWykroczenia" ColumnName="idWykroczenia" />
+                <ScalarProperty Name="PESEL" ColumnName="PESEL" />
+                <ScalarProperty Name="liczbaPktKarnych" ColumnName="liczbaPktKarnych" />
+                <ScalarProperty Name="dataWykroczenia" ColumnName="dataWykroczenia" />
+                <ScalarProperty Name="wykroczenie1" ColumnName="wykroczenie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Powiats">
+            <EntityTypeMapping TypeName="bd1Model.Powiat">
+              <MappingFragment StoreEntitySet="Powiat">
+                <ScalarProperty Name="idPowiat" ColumnName="idPowiat" />
+                <ScalarProperty Name="idWojewodztwo" ColumnName="idWojewodztwo" />
+                <ScalarProperty Name="powiat1" ColumnName="powiat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="database_firewall_rules">
+            <EntityTypeMapping TypeName="bd1Model.database_firewall_rules">
+              <MappingFragment StoreEntitySet="database_firewall_rules">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="start_ip_address" ColumnName="start_ip_address" />
+                <ScalarProperty Name="end_ip_address" ColumnName="end_ip_address" />
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+                <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
